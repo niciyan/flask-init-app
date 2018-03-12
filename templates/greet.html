@@ -29,18 +29,23 @@
             {% endfor %}
         {% endif %}
         {% endwith %}
-        {% if result  %}
-        <p>result part.</p>
-        {% endif %}
         <form method="POST" action="{{ url_for('.index') }}">
             {{ form.csrf_token }}
             <dl>
                 {{ render_field(form.name) }}
                 {{ render_field(form.number) }}
-                {{ render_field(form.date) }}
+                {{ render_field(form.date, type="date") }}
             </dl>
             <p><input type="submit" value="Register">
         </form>
+        {% if answer %}
+        <table class="table">
+            <tr>
+                <th></th>
+                <td></td>
+            </tr>
+        </table>
+        {% endif %}
     </div>
 </body>
 </html>
