@@ -12,6 +12,8 @@
 {% endmacro %}
 
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +23,7 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h1>Hi,man.</h1>
+		<h1><a href="{{ url_for('.index') }}">Hi,man! This is data size Calculation Program.</a></h1>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
@@ -29,23 +31,47 @@
             {% endfor %}
         {% endif %}
         {% endwith %}
-        <form method="POST" action="{{ url_for('.index') }}">
-            {{ form.csrf_token }}
-            <dl>
-                {{ render_field(form.name) }}
-                {{ render_field(form.number) }}
-                {{ render_field(form.date, type="date") }}
-            </dl>
-            <p><input type="submit" value="Register">
-        </form>
-        {% if answer %}
-        <table class="table">
-            <tr>
-                <th></th>
-                <td></td>
-            </tr>
-        </table>
-        {% endif %}
+		<div class="row">
+			<div class="col col-sm-3">
+				<form method="POST" action="{{ url_for('.index') }}">
+					{{ form.csrf_token }}
+					<dl>
+						{{ render_field(form.number) }}
+					</dl>
+					<p><input type="submit" value="Go">
+				</form>
+				<h2>Calculation Note</h2>
+				<ul>
+					<li>You write data size per request per second.</li>
+					<li>KB, MB, GB are available.</li>
+					<li>You will get size per minute, hour, day, month.</li>
+				</ul>
+			</div>
+			<div class="col col-sm-6">
+				{% if answer %}
+				<table class="table">
+					<tr>
+						<th>size per Minute [x60]</th>
+						<td>{{ answer['per_min'] }}</td>
+					</tr>
+					<tr>
+						<th>size per Hour [x60x60]</th>
+						<td>{{ answer['per_hour'] }}</td>
+					</tr>
+					<tr>
+						<th>size per Day [x60x60x24]</th>
+						<td>{{ answer['per_day'] }}</td>
+					</tr>
+					<tr>
+						<th>size per Month [x60x60x24x30]</th>
+						<td>{{ answer['per_month'] }}</td>
+					</tr>
+				</table>
+				<p>計算実施日: <span style="color:blue">{{ answer['now'] }}</span></p>
+				{% endif %}
+			</div>
+
+		</div>
     </div>
 </body>
 </html>
